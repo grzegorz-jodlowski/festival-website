@@ -19,12 +19,18 @@ app.get('/testimonials/:id', (req, res) => res.json(db.find(el => el.id == req.p
 
 app.post('/testimonials', (req, res) => {
   const { author, text } = req.body;
-  db.push({
-    id: uuidv4(),
-    author,
-    text,
-  })
-  res.json({ message: 'OK' });
+
+  if (author && text) {
+    db.push({
+      id: uuidv4(),
+      author,
+      text,
+    })
+    res.json({ message: 'OK' });
+  }
+  else {
+    res.send('You can\'t leave fields empty!')
+  }
 });
 
 app.delete('/testimonials/:id', (req, res) => {
