@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const { v4: uuidv4 } = require('uuid');
+
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -14,6 +16,16 @@ const port = 8000;
 app.get('/testimonials', (req, res) => res.json(db));
 app.get('/testimonials/random', (req, res) => res.json(db[Math.floor(Math.random() * (db.length))]));
 app.get('/testimonials/:id', (req, res) => res.json(db[req.params.id]));
+
+app.post('/testimonials', (req, res) => {
+  const { author, text } = req.body;
+  db.push({
+    id: uuidv4(),
+    author,
+    text,
+  })
+  res.json({ message: 'OK' });
+});
 
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
