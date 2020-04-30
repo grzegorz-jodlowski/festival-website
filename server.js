@@ -15,7 +15,7 @@ const port = 8000;
 
 app.get('/testimonials', (req, res) => res.json(db));
 app.get('/testimonials/random', (req, res) => res.json(db[Math.floor(Math.random() * (db.length))]));
-app.get('/testimonials/:id', (req, res) => res.json(db[req.params.id]));
+app.get('/testimonials/:id', (req, res) => res.json(db.find(el => el.id == req.params.id)));
 
 app.post('/testimonials', (req, res) => {
   const { author, text } = req.body;
@@ -26,6 +26,12 @@ app.post('/testimonials', (req, res) => {
   })
   res.json({ message: 'OK' });
 });
+
+app.delete('/testimonials/:id', (req, res) => {
+  db.splice(db.indexOf(db.find(el => el.id == req.params.id)), 1);
+  res.json({ message: 'OK' });
+});
+
 
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))
