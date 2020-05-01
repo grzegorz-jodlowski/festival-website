@@ -31,13 +31,14 @@ app.post('/testimonials', (req, res) => {
 });
 
 app.put('/testimonials/:id', (req, res) => {
-  const dbRecord = db.testimonials.find(el => el.id == req.params.id)
+  const dbRecord = db.testimonials.find(el => el.id == req.params.id);
   db.testimonials.splice(db.testimonials.indexOf(dbRecord), 1, { ...dbRecord, ...req.body });
   res.json({ message: 'OK' });
 });
 
 app.delete('/testimonials/:id', (req, res) => {
-  db.testimonials.splice(db.testimonials.indexOf(db.testimonials.find(el => el.id == req.params.id)), 1);
+  const dbRecord = db.testimonials.find(el => el.id == req.params.id);
+  db.testimonials.splice(db.testimonials.indexOf(dbRecord), 1);
   res.json({ message: 'OK' });
 });
 
