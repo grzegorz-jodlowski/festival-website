@@ -1,8 +1,14 @@
-app.get('/seats', (req, res) => res.json(db.seats));
-app.get('/seats/random', (req, res) => res.json(db.seats[Math.floor(Math.random() * (db.seats.length))]));
-app.get('/seats/:id', (req, res) => res.json(db.seats.find(el => el.id == req.params.id)));
+const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 
-app.post('/seats', (req, res) => {
+const router = express.Router();
+const db = require('./../db');
+
+router.route('/seats').get((req, res) => res.json(db.seats));
+router.route('/seats/random').get((req, res) => res.json(db.seats[Math.floor(Math.random() * (db.seats.length))]));
+router.route('/seats/:id').get((req, res) => res.json(db.seats.find(el => el.id == req.params.id)));
+
+router.route('/seats').post((req, res) => {
   const { day, seat, client, email } = req.body;
 
   if (day && seat && client && email) {
@@ -14,14 +20,16 @@ app.post('/seats', (req, res) => {
   }
 });
 
-app.put('/seats/:id', (req, res) => {
+router.route('/seats/:id').put((req, res) => {
   const dbRecord = db.seats.find(el => el.id == req.params.id)
   db.seats.splice(db.seats.indexOf(dbRecord), 1, { ...dbRecord, ...req.body });
   res.json({ message: 'OK' });
 });
 
-app.delete('/seats/:id', (req, res) => {
+router.route('/seats/:id').delete((req, res) => {
   const dbRecord = db.seats.find(el => el.id == req.params.id)
   db.seats.splice(db.seats.indexOf(dbRecord), 1);
   res.json({ message: 'OK' });
 });
+
+module.exports = router;
