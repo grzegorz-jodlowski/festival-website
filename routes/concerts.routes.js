@@ -1,8 +1,14 @@
-app.get('/concerts', (req, res) => res.json(db.concerts));
-app.get('/concerts/random', (req, res) => res.json(db.concerts[Math.floor(Math.random() * (db.concerts.length))]));
-app.get('/concerts/:id', (req, res) => res.json(db.concerts.find(el => el.id == req.params.id)));
+const express = require('express');
+const { v4: uuidv4 } = require('uuid');
 
-app.post('/concerts', (req, res) => {
+const router = express.Router();
+const db = require('./../db');
+
+router.route('/concerts').get((req, res) => res.json(db.concerts));
+router.route('/concerts/random').get((req, res) => res.json(db.concerts[Math.floor(Math.random() * (db.concerts.length))]));
+router.route('/concerts/:id').get((req, res) => res.json(db.concerts.find(el => el.id == req.params.id)));
+
+router.route('/concerts').post((req, res) => {
   const { performer } = req.body;
 
   if (performer) {
@@ -14,14 +20,16 @@ app.post('/concerts', (req, res) => {
   }
 });
 
-app.put('/concerts/:id', (req, res) => {
+router.route('/concerts/:id').put((req, res) => {
   const dbRecord = db.concerts.find(el => el.id == req.params.id)
   db.concerts.splice(db.concerts.indexOf(dbRecord), 1, { ...dbRecord, ...req.body });
   res.json({ message: 'OK' });
 });
 
-app.delete('/concerts/:id', (req, res) => {
+router.route('/concerts/:id').delete((req, res) => {
   const dbRecord = db.concerts.find(el => el.id == req.params.id)
   db.concerts.splice(db.concerts.indexOf(dbRecord), 1);
   res.json({ message: 'OK' });
 });
+
+module.exports = router;
