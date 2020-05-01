@@ -31,14 +31,9 @@ app.post('/testimonials', (req, res) => {
 });
 
 app.put('/testimonials/:id', (req, res) => {
-  const { author, text } = req.body;
-
   const dbRecord = db.testimonials.find(el => el.id == req.params.id)
-
-  db.testimonials.splice(db.testimonials.indexOf(dbRecord), 1, { ...dbRecord, author: author || dbRecord.author, text: text || dbRecord.text });
-
+  db.testimonials.splice(db.testimonials.indexOf(dbRecord), 1, { ...dbRecord, ...req.body });
   res.json({ message: 'OK' });
-
 });
 
 app.delete('/testimonials/:id', (req, res) => {
