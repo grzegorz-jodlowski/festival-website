@@ -1,27 +1,23 @@
 const express = require('express');
-const app = express();
 const { v4: uuidv4 } = require('uuid');
+const db = require('./db');
 
+const app = express();
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-const db = [
-  { id: 1, author: 'John Doe', text: 'This company is worth every coin!' },
-  { id: 2, author: 'Amanda Doe', text: 'They really know how to make you happy.' },
-];
 
 const port = 8000;
 
-app.get('/testimonials', (req, res) => res.json(db));
-app.get('/testimonials/random', (req, res) => res.json(db[Math.floor(Math.random() * (db.length))]));
-app.get('/testimonials/:id', (req, res) => res.json(db.find(el => el.id == req.params.id)));
+app.get('/testimonials', (req, res) => res.json(db.testimonials));
+app.get('/testimonials/random', (req, res) => res.json(db.testimonials[Math.floor(Math.random() * (db.testimonials.length))]));
+app.get('/testimonials/:id', (req, res) => res.json(db.testimonials.find(el => el.id == req.params.id)));
 
 app.post('/testimonials', (req, res) => {
   const { author, text } = req.body;
 
   if (author && text) {
-    db.push({
+    db.testimonials.push({
       id: uuidv4(),
       author,
       text,
@@ -36,16 +32,16 @@ app.post('/testimonials', (req, res) => {
 app.put('/testimonials/:id', (req, res) => {
   const { author, text } = req.body;
 
-  const dbRecord = db.find(el => el.id == req.params.id)
+  const dbRecord = db.testimonials.find(el => el.id == req.params.id)
 
-  db.splice(db.indexOf(dbRecord), 1, { ...dbRecord, author: author || dbRecord.author, text: text || dbRecord.text });
+  db.testimonials.splice(db.testimonials.indexOf(dbRecord), 1, { ...dbRecord, author: author || dbRecord.author, text: text || dbRecord.text });
 
   res.json({ message: 'OK' });
 
 });
 
 app.delete('/testimonials/:id', (req, res) => {
-  db.splice(db.indexOf(db.find(el => el.id == req.params.id)), 1);
+  db.testimonials.splice(db.testimonials.indexOf(db.testimonials.find(el => el.id == req.params.id)), 1);
   res.json({ message: 'OK' });
 });
 
