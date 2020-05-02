@@ -11,12 +11,18 @@ router.route('/seats/:id').get((req, res) => res.json(db.seats.find(el => el.id 
 router.route('/seats').post((req, res) => {
   const { day, seat, client, email } = req.body;
 
-  if (day && seat && client && email) {
-    db.seats.push({ id: uuidv4(), ...req.body })
-    res.json({ message: 'OK' });
-  }
-  else {
-    res.json({ message: 'You can\'t leave fields empty!' })
+  const isSeatOccupied = db.seats.some(el => el.day == day && el.seat == seat);
+
+  if (!isSeatOccupied) {
+    if (day && seat && client && email) {
+      db.seats.push({ id: uuidv4(), ...req.body })
+      res.json({ message: 'OK' });
+    }
+    else {
+      res.json({ message: 'You can\'t leave fields empty!' })
+    }
+  } else {
+    res.json({ message: 'The slot is already taken...' })
   }
 });
 
