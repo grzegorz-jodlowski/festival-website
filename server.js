@@ -1,12 +1,13 @@
 const express = require('express');
+const cors = require('cors')
 
 const app = express();
 const port = 8000;
-
 const testimonialsRoutes = require('./routes/testimonials.routes');
 const concertsRoutes = require('./routes/concerts.routes');
 const seatsRoutes = require('./routes/seats.routes');
 
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/api', testimonialsRoutes);
