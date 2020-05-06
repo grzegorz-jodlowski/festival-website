@@ -9,11 +9,12 @@ import './SeatChooser.scss';
 class SeatChooser extends React.Component {
 
   componentDidMount() {
-    const { loadSeats } = this.props;
-    this.socket = io((process.env.NODE_ENV === 'production') ? '' : 'http://localhost:8000');
+    const { loadSeats, loadSeatsData } = this.props;
 
     loadSeats();
-    this.intervalId = setInterval(() => loadSeats(), 1000 * 60 * 2);
+
+    this.socket = io((process.env.NODE_ENV === 'production') ? '' : 'http://localhost:8000');
+    this.socket.on('seatsUpdated', (seats) => loadSeatsData(seats));
   }
 
   componentWillUnmount() {

@@ -17,6 +17,7 @@ router.route('/seats').post((req, res) => {
     if (day && seat && client && email) {
       db.seats.push({ id: uuidv4(), ...req.body })
       res.json({ message: 'OK' });
+      req.io.emit('seatsUpdated', db.seats);
     }
     else {
       res.json({ message: 'You can\'t leave fields empty!' })
