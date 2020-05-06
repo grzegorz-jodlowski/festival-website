@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const socket = require('socket.io');
 
 const app = express();
 
@@ -24,4 +25,10 @@ app.use(function (req, res, next) {
   res.status(404).json({ message: 'Not found...' })
 });
 
-app.listen(process.env.PORT || 8000, () => console.log('Example app listening at http://localhost:8000'));
+const server = app.listen(process.env.PORT || 8000, () => console.log('Example app listening at http://localhost:8000'));
+
+const io = socket(server);
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
