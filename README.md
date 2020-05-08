@@ -5,7 +5,7 @@
 
 
 # <p align="center">🎷 Festival website project</p>
-<p align="center">Project for learning Express.js and WebSocket</p>
+<p align="center">Project for learning Express.js</p>
 
 </br>
 
@@ -15,16 +15,14 @@
 - [Technologies used](#technologies)
 - [What I learned?](#what)
 - [Interesting code snippet](#interesting)
-- [Installation](#install)
-- [NPM scripts](#npm)
-- [Available URLs](#ur)
+- [Installation and quick start](#install)
 - [Website (on Heroku)](#site)
 
 </br>
 
 ## <a name="about"></a>What's this project about?
 
-This is a
+This is a project of website for music festival. It allows to review concerts and their prices. An important element is the ticket booking subpage. You can book a ticket and block its availability in real time by using the WebSocket technology.
 
 </br>
 
@@ -32,13 +30,14 @@ This is a
 - HTML
 - CSS
 - SCSS
+- Bootstrap/Reactstrap
 - JavaScript
 - React
 - React Router
 - Redux
 - Axios
 - Thunk
-- Express.js
+- Express
 - WebSocket
 - GIT
 
@@ -46,7 +45,20 @@ This is a
 
 ## <a name="what"></a>What I learned?
 
-- create  [create](https://),
+- what main frameworks are available for node.js ([Express.js](https://expressjs.com/), [Koa.js](https://koajs.com/), [Feathers.js](https://feathersjs.com/)),
+- types of servers and technologies used on the backend,
+- build simple servers using Express.js,
+- use Express.js middleware (eg. `express.static`),
+- work with the built-in `path` Node.js module (`const path = require('path');`),
+- use [Nodemon](https://nodemon.io/) to automatically refresh changes,
+- use Handlebars engine templates on the backend to render HTML,
+- test HTTP requests using [Postman](https://www.postman.com/),
+- what is the difference between `x-www-form-url-encoded` and `multipart/form-data`  data transfer methods,
+- validate received data on server side,
+- use the REST standard to build the API server (REST – Respresentation State Transfer),
+- restrict connections to the API using cors functionality,
+- extract endpoint groups to separate files (`express.Router`),
+- synchronize development servers and prepare the server for publishing the website,
 
 
 
@@ -54,15 +66,52 @@ This is a
 </br>
 
 ## <a name="interesting"></a>Interesting code snippet (for me of course 😉)
-- t:
+- express server setup:
 
 ```js
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const socket = require('socket.io');
 
+const app = express();
+
+const testimonialsRoutes = require('./routes/testimonials.routes');
+const concertsRoutes = require('./routes/concerts.routes');
+const seatsRoutes = require('./routes/seats.routes');
+
+app.use(cors());
+app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+app.use('/api', testimonialsRoutes);
+app.use('/api', concertsRoutes);
+app.use('/api', seatsRoutes);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build/index.html'));
+});
+
+app.use(function (req, res, next) {
+  res.status(404).json({ message: 'Not found...' })
+});
+
+const server = app.listen(process.env.PORT || 8000, () => console.log('Example app listening at http://localhost:8000'));
+
+const io = socket(server);
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+});
 ```
 
 </br>
 
-## <a name="install"></a>Installation
+## <a name="install"></a>Installation and quick start
 
 - use the package manager [npm](https://www.npmjs.com/get-npm) or [yarn](https://classic.yarnpkg.com/en/) to install dependencies:
 
@@ -71,11 +120,24 @@ npm install // yarn install
 
 or
 
-npm i
+npm i // yarn
 ```
-- run watch mode to start the server, constantly refreshing and more:///////////////////////// server/client
+- run server with nodemon (after nodemon installation):
 
 ```bash
+npm start
+
+or
+
+yarn start
+```
+- run watch mode to constantly refreshing react client:
+
+```bash
+cd client/
+
+then:
+
 npm start
 
 or
@@ -85,31 +147,6 @@ yarn start
 
 <br/>
 
-
-
-## <a name="npm"></a>NPM scripts
-
-There are 3 main scripts to speed up work:
-
-- `start`: observes changes in the` src` folder and starts working preview,
-- `build`: builds a project in the` build` folder based on files from the `src` and` public` folders,
-- `test`: starting the unit tests,
-
-check the additional scripts in the `package.json` file
-
-
-<br/>
-
-
-## <a name="url"></a>Available URLs
-
-- http://localhost:3000/ - live view of the current project - administration panel (`webpack-dev-server`)
-- http://localhost:3131/ - pizzeria website for customers
-- http://localhost:3131/api - project API url
-- http://localhost:3131/api/db - preview of the entire database in the API
-- http://localhost:3131/panel - state of the current project (panel) from the moment of starting `yarn start` (this is not a live view)
-
-<br/>
 
 ## <a name="site"></a>Website (on Heroku)
 [Festival website](https://festival-website.herokuapp.com/)
