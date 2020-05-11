@@ -38,7 +38,9 @@ This is a project of website for music festival. It allows to review concerts an
 - Axios
 - Thunk
 - Express
-- WebSocket
+- Socket.io (WebSocket)
+- MongoDB
+- Mongoose
 - GIT
 
 </br>
