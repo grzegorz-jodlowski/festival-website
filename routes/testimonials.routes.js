@@ -1,9 +1,8 @@
 const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+const router = express.Router();
 
 const Testimonial = require('../models/testimonial.model');
 
-const router = express.Router();
 
 router.get('/testimonials', async (req, res) => {
   try {
@@ -36,33 +35,49 @@ router.get('/testimonials/:id', async (req, res) => {
   }
 });
 
-
-router.route('/testimonials').post((req, res) => {
-  const { author, text } = req.body;
-
-  if (author && text) {
-    db.testimonials.push({
-      id: uuidv4(),
-      author,
-      text,
-    })
+router.post('/testimonials', async (req, res) => {
+  try {
+    const { author, text } = req.body;
+    const newTestimonial = new Testimonial({ author, text });
+    await newTestimonial.save()
     res.json({ message: 'OK' });
-  }
-  else {
-    res.json({ message: 'You can\'t leave fields empty!' })
+  } catch (error) {
+    res.status(500).json({ message: error });
   }
 });
 
-router.route('/testimonials/:id').put((req, res) => {
-  const dbRecord = db.testimonials.find(el => el.id == req.params.id);
-  db.testimonials.splice(db.testimonials.indexOf(dbRecord), 1, { ...dbRecord, ...req.body });
-  res.json({ message: 'OK' });
+router.put('/testimonials/:id', async (req, res) => {
+  try {
+    const { author, text } = req.body;
+
+    const updatedElement = {};
+    author ? updatedElement.author = author : null;
+    text ? updatedElement.text = text : null;
+
+    const testimonial = await Testimonial.findById(req.params.id);
+    if (testimonial) {
+      await Testimonial.updateOne({ _id: req.params.id }, { $set: updatedElement })
+      res.json({ message: 'OK' });
+    } else {
+      res.status(404).json({ message: 'Not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
 });
 
-router.route('/testimonials/:id').delete((req, res) => {
-  const dbRecord = db.testimonials.find(el => el.id == req.params.id);
-  db.testimonials.splice(db.testimonials.indexOf(dbRecord), 1);
-  res.json({ message: 'OK' });
+router.delete('/testimonials/:id', async (req, res) => {
+  try {
+    const testimonial = await Testimonial.findById(req.params.id);
+    if (testimonial) {
+      await Testimonial.deleteOne({ _id: req.params.id });
+      res.json({ message: 'OK' });
+    } else {
+      res.status(404).json({ message: error });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error })
+  }
 });
 
 module.exports = router;
