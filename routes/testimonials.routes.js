@@ -1,12 +1,41 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 
-const router = express.Router();
-const db = require('./../db');
+const Testimonial = require('../models/testimonial.model');
 
-router.route('/testimonials').get((req, res) => res.json(db.testimonials));
-router.route('/testimonials/random').get((req, res) => res.json(db.testimonials[Math.floor(Math.random() * (db.testimonials.length))]));
-router.route('/testimonials/:id').get((req, res) => res.json(db.testimonials.find(el => el.id == req.params.id)));
+const router = express.Router();
+
+router.get('/testimonials', async (req, res) => {
+  try {
+    res.json(await Testimonial.find())
+  } catch (error) {
+    res.json({ message: error })
+  }
+});
+
+router.get('/testimonials/random', async (req, res) => {
+  try {
+    const count = await Testimonial.countDocuments();
+    const rand = Math.floor(Math.random() * count);
+    const randomTestimonial = await Testimonial.findOne().skip(rand);
+    if (!randomTestimonial) res.status(404).json({ message: 'Not found' });
+    else res.json(randomTestimonial);
+  }
+  catch (error) {
+    res.status(500).json({ message: error });
+  }
+});
+
+router.get('/testimonials/:id', async (req, res) => {
+  try {
+    const testimonial = await Testimonial.findById(req.params.id);
+    if (!testimonial) res.status(404).json({ message: 'Not found' });
+    else res.json(testimonial);
+  } catch (error) {
+    res.status(500).json({ message: error })
+  }
+});
+
 
 router.route('/testimonials').post((req, res) => {
   const { author, text } = req.body;
