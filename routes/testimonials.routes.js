@@ -3,7 +3,6 @@ const router = express.Router();
 
 const Testimonial = require('../models/testimonial.model');
 
-
 router.get('/testimonials', async (req, res) => {
   try {
     res.json(await Testimonial.find())
@@ -57,7 +56,7 @@ router.put('/testimonials/:id', async (req, res) => {
     const testimonial = await Testimonial.findById(req.params.id);
     if (testimonial) {
       await Testimonial.updateOne({ _id: req.params.id }, { $set: updatedElement })
-      res.json({ message: 'OK' });
+      res.json(await Testimonial.findById(req.params.id));
     } else {
       res.status(404).json({ message: 'Not found' });
     }
@@ -71,7 +70,7 @@ router.delete('/testimonials/:id', async (req, res) => {
     const testimonial = await Testimonial.findById(req.params.id);
     if (testimonial) {
       await Testimonial.deleteOne({ _id: req.params.id });
-      res.json({ message: 'OK' });
+      res.json(testimonial);
     } else {
       res.status(404).json({ message: error });
     }
