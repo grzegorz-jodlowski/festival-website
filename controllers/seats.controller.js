@@ -35,14 +35,15 @@ exports.postSeat = async (req, res) => {
   try {
     const { day, seat, client, email } = req.body;
 
-    const seatsArray = await Seat.find();
+    const seats = await Seat.find();
 
-    const isSeatOccupied = seatsArray.some(el => el.day == day && el.seat == seat);
+    const isSeatOccupied = seats.some(el => el.day == day && el.seat == seat);
 
     if (!isSeatOccupied) {
       const newSeat = new Seat({ day, seat, client, email });
       await newSeat.save();
       res.json({ message: 'OK' });
+      const seatsArray = await Seat.find();
       req.io.emit('seatsUpdated', seatsArray);
     } else {
       res.json({ message: 'The slot is already taken...' })
