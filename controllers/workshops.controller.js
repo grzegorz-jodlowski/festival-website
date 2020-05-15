@@ -62,3 +62,17 @@ exports.updateWorkshop = async (req, res) => {
     res.status(500).json({ message: error });
   }
 }
+
+exports.deleteWorkshop = async (req, res) => {
+  try {
+    const workshop = await Workshop.findById(req.params.id);
+    if (workshop) {
+      await Workshop.deleteOne({ _id: req.params.id });
+      res.json(workshop);
+    } else {
+      res.status(404).json({ message: error });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error })
+  }
+}
