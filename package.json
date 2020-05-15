@@ -14,11 +14,9 @@
   "dependencies": {
     "chai": "4.2.0",
     "cors": "^2.8.5",
-    "es6-promise": "^4.2.8",
     "express": "^4.17.1",
     "mocha": "6.2.1",
     "mongoose": "^5.9.13",
-    "nock": "^12.0.3",
     "socket.io": "^2.3.0",
     "uuid": "^8.0.0"
   }
