@@ -40,6 +40,7 @@ This is a project of website for music festival. It allows to review concerts an
 - Express
 - Socket.io (WebSocket)
 - MongoDB
+- MongoDB Atlas
 - Mongoose
 - GIT
 
