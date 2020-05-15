@@ -7,10 +7,10 @@ router.get('/workshops', WorkshopController.getAll);
 router.get('/workshops/random', WorkshopController.getRandom);
 router.get('/workshops/:id', WorkshopController.getById);
 
-router.post('/workshops', WorkshopController.postSeat);
+// router.post('/workshops', WorkshopController.postSeat);
 
-router.put('/workshops/:id', WorkshopController.updateSeat);
+// router.put('/workshops/:id', WorkshopController.updateSeat);
 
-router.delete('/workshops/:id', WorkshopController.deleteSeat);
+// router.delete('/workshops/:id', WorkshopController.deleteSeat);
 
 module.exports = router;
