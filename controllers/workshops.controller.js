@@ -43,3 +43,22 @@ exports.postWorkshop = async (req, res) => {
   }
 }
 
+exports.updateWorkshop = async (req, res) => {
+  try {
+    const { name, concertId } = req.body;
+
+    const updatedElement = {};
+    name ? updatedElement.name = name : null;
+    concertId ? updatedElement.concertId = concertId : null;
+
+    const workshop = await Workshop.findById(req.params.id);
+    if (workshop) {
+      await Workshop.updateOne({ _id: req.params.id }, { $set: updatedElement })
+      res.json(await Workshop.findById(req.params.id));
+    } else {
+      res.status(404).json({ message: 'Not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error });
+  }
+}
