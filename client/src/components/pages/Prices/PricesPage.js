@@ -4,7 +4,15 @@ import { Alert, Container } from 'reactstrap';
 
 class Prices extends React.Component {
 
+  componentDidMount() {
+    const { loadConcerts } = this.props;
+    loadConcerts();
+  }
+
   render() {
+    const { request, concerts } = this.props;
+    console.log(' : Prices -> render -> concerts', concerts);
+
     return (
       <Container>
         <h1>Prices</h1>
