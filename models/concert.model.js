@@ -6,7 +6,7 @@ const concertSchema = new mongoose.Schema({
   price: { type: Number, required: true },
   day: { type: Number, required: true },
   image: { type: String, required: true },
-  workshops: { type: Object, required: true, ref: 'Workshop' },
+  workshops: { type: Array, required: true, ref: 'Workshop' },
 });
 
 module.exports = mongoose.model('Concert', concertSchema);
