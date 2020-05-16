@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alert, Container } from 'reactstrap';
+import { Alert, Container, Progress } from 'reactstrap';
 
 class Prices extends React.Component {
 
@@ -15,7 +15,10 @@ class Prices extends React.Component {
     console.log(' : Prices -> render -> workshops', workshops);
     console.log(' : Prices -> render -> concerts', concerts);
 
-    return (
+    if (request.pending) return <Progress animated color="primary" value={50} />;
+    else if (request.error) return <Alert color="warning">{request.error}</Alert>;
+    else if (!request.success || !concerts.length) return <Alert color="info">No concerts</Alert>;
+    else if (request.success) return (
       <Container>
         <h1>Prices</h1>
         <p>Prices may differ according the day of the festival. Remember that ticket includes not only the star performance, but also 10+ workshops. We gathered several genre teachers to help you increase your vocal skills, as well as self confidence.</p>
