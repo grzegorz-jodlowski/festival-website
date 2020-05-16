@@ -5,12 +5,14 @@ import { Alert, Container } from 'reactstrap';
 class Prices extends React.Component {
 
   componentDidMount() {
-    const { loadConcerts } = this.props;
+    const { loadConcerts, loadWorkshops } = this.props;
     loadConcerts();
+    loadWorkshops();
   }
 
   render() {
-    const { request, concerts } = this.props;
+    const { request, concerts, workshops } = this.props;
+    console.log(' : Prices -> render -> workshops', workshops);
     console.log(' : Prices -> render -> concerts', concerts);
 
     return (
