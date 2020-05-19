@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server.js",
     "build": "cd client && yarn install && yarn build",
-    "test": "mocha --watch \"./{,!(client)/**/}*.test.js\""
+    "test": "mocha --watch \"./{,!(client|node_modules)/**/}*.test.js\""
   },
   "keywords": [],
   "author": "",
