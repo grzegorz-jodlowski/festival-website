@@ -33,7 +33,7 @@ app.use(function (req, res, next) {
   res.status(404).json({ message: 'Not found...' })
 });
 
-mongoose.connect('mongodb+srv://gjodlowski:gjodlowski@cluster0-rm7fq.gcp.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(`mongodb+srv://gjodlowski:${process.env.test}@cluster0-rm7fq.gcp.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true });
 // mongoose.connect('mongodb://localhost:27017/NewWaveDB', { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
