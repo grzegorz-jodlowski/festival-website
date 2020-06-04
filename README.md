@@ -11,12 +11,14 @@
 
 ## Table of Contents
 
-- [What's this project about?](#about)
-- [Technologies used](#technologies)
-- [What I learned?](#what)
-- [Interesting code snippet](#interesting)
-- [Installation and quick start](#install)
-- [Website (on Heroku)](#site)
+- [<p align="center">🎷 Festival website project</p>](#-festival-website-project)
+  - [Table of Contents](#table-of-contents)
+  - [<a name="about"></a>What's this project about?](#whats-this-project-about)
+  - [<a name="technologies"></a>Technologies used](#technologies-used)
+  - [<a name="what"></a>What I learned?](#what-i-learned)
+  - [<a name="interesting"></a>Interesting code snippet (for me of course 😉)](#interesting-code-snippet-for-me-of-course-)
+  - [<a name="install"></a>Installation and quick start](#installation-and-quick-start)
+  - [<a name="site"></a>Website (on Heroku)](#website-on-heroku)
 
 </br>
 
@@ -42,6 +44,7 @@ This is a project of website for music festival. It allows to review concerts an
 - MongoDB
 - MongoDB Atlas
 - Mongoose
+- Mocha/Chai
 - GIT
 
 </br>
@@ -61,7 +64,8 @@ This is a project of website for music festival. It allows to review concerts an
 - use the REST standard to build the API server (REST – Respresentation State Transfer),
 - restrict connections to the API using cors functionality,
 - extract endpoint groups to separate files (`express.Router`),
-- synchronize development servers and prepare the server for publishing the website,
+- test code on the backend using Mocha/Chai libraries,
+- synchronize development servers and prepare the server for publishing the website.
 
 
 
