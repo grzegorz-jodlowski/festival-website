@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://festival-website.herokuapp.com/"><img src="./logo.jpeg" title="Festival website" alt="snippet of festival website panel to book seats"></a>
+<a href="https://festival-website.herokuapp.com/"><img src="img/logo.jpeg" title="Festival website" alt="snippet of festival website panel to book seats"></a>
 </p>
 
 
@@ -11,14 +11,12 @@
 
 ## Table of Contents
 
-- [<p align="center">🎷 Festival website project</p>](#-festival-website-project)
-  - [Table of Contents](#table-of-contents)
-  - [<a name="about"></a>What's this project about?](#whats-this-project-about)
-  - [<a name="technologies"></a>Technologies used](#technologies-used)
-  - [<a name="what"></a>What I learned?](#what-i-learned)
-  - [<a name="interesting"></a>Interesting code snippet (for me of course 😉)](#interesting-code-snippet-for-me-of-course-)
-  - [<a name="install"></a>Installation and quick start](#installation-and-quick-start)
-  - [<a name="site"></a>Website (on Heroku)](#website-on-heroku)
+- [What's this project about?](#about)
+- [Technologies used](#tech)
+- [What I learned?](#what)
+- [Interesting code snippet](#interesting)
+- [Installation and quick start](#install)
+- [Website (on Heroku)](#site)
 
 </br>
 
@@ -28,7 +26,7 @@ This is a project of website for music festival. It allows to review concerts an
 
 </br>
 
-## <a name="technologies"></a>Technologies used
+## <a name="tech"></a>Technologies used
 - HTML
 - CSS
 - SCSS
